@@ -7,12 +7,12 @@ PLUGIN_PATH:
   - "{{ frontend_plugin_dir }}"
   - "{{ backend_plugin_dir }}"
 BACKEND_MODULES:
-  - "saml2_backend"
+  - "saml_backend"
   - "oidc_backend"
   - "google_backend"
   - "fb_backend"
 FRONTEND_MODULES:
-  - "saml2_frontend"
+  - "saml_frontend"
 USER_ID_HASH_SALT: ""
 CONSENT:
   enable: Yes
