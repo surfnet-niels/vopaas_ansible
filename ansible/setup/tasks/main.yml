@@ -1,0 +1,54 @@
+- name: Create cert directory
+  file: path={{ cert_dir }} state=directory mode=0744
+
+- name: Create backend plugin directory
+  file: path={{ backend_plugin_dir }} state=directory mode=0744
+
+- name: Create frontend plugin directory
+  file: path={{ frontend_plugin_dir }} state=directory mode=0744
+
+# Server keys
+- name: copy proxy cert
+  copy: src=certs/proxy_server.crt dest={{ proxy_server_cert }} mode=0444
+- name: copy proxy private key
+  copy: src=certs/proxy_server.key dest={{ proxy_server_key }} mode=0444
+- name: copy cm pub key
+  copy: src=certs/cm.pub dest={{ proxy_server_cm_pub_key }} mode=0444
+
+# Backend keys
+- name: copy backend cert
+  copy: src=certs/proxy_backend.crt dest={{ proxy_backend_cert }} mode=0444
+- name: copy backend private key
+  copy: src=certs/proxy_backend.key dest={{ proxy_backend_key }} mode=0444
+
+# Frontend keys
+- name: copy frontend cert
+  copy: src=certs/proxy_frontend.crt dest={{ proxy_frontend_cert }} mode=0444
+- name: copy frontend private key
+  copy: src=certs/proxy_frontend.key dest={{ proxy_frontend_key }} mode=0444
+
+- name: create proxy directory
+  file: path={{ proxy_dir }} state=directory mode=0744
+
+- name: Add proxy server
+  copy: src=proxy_server.py dest={{ proxy_dir }}/proxy_server.py
+
+- name: Add proxy config
+  template: src=proxy_config.yml dest={{ proxy_dir }}/proxy_config.yml
+
+- name: Add internal attributes config
+  copy: src=internal_attributes.yml dest={{ proxy_dir }}/internal_attributes.yml
+
+- name: Add all frontend plugins
+  template: src={{ item }} dest={{ frontend_plugin_dir }}/{{ item | basename }}
+  with_fileglob:
+    - ../templates/plugins/frontends/*
+
+- name: Add all backend plugins
+  template: src={{ item }} dest={{ backend_plugin_dir }}/{{ item | basename }}
+  with_fileglob:
+    - ../templates/plugins/backends/*
+
+- name: Add VOPaaS proxy job
+  template: src=vopaas_proxy.conf dest=/etc/init/vopaas_proxy.conf
+  sudo: Yes

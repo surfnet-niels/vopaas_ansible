@@ -1,0 +1,16 @@
+- hosts: all
+
+  pre_tasks:
+    - name: Register home directory
+      command: echo $HOME
+      register: home
+      sudo: No
+
+  vars:
+    installation_dir: "{{ home.stdout }}/vopaas"
+    hostname: "127.0.0.1"
+    proxy_port: "9091"
+
+  roles:
+    - {role: install, sudo: no}
+    - {role: setup, sudo: no}

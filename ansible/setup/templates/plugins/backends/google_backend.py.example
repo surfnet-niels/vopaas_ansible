@@ -1,0 +1,81 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import os.path
+
+from satosa.backends.openid_connect import OpenIdBackend
+from satosa.plugin_base.endpoint import BackendModulePlugin
+from vopaas.backends.oidc_backend import VOPaaSOpenIdBackend
+
+XMLSEC_PATH = '/usr/local/bin/xmlsec1'
+
+
+def full_path(local_file):
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    return os.path.join(basedir, local_file)
+
+
+PROVIDER = "google"
+MODULE = VOPaaSOpenIdBackend
+
+
+class OpenidPlugin(BackendModulePlugin):
+    def __init__(self, base_url):
+        module_base = "%s/%s" % (base_url, PROVIDER)
+        config = {
+            "authz_page": PROVIDER,
+            "acr_values": ["PASSWORD"],
+            "verify_ssl": False,
+            "op_url": "https://accounts.google.com",
+            "state_encryption_key": "",
+            "state_id": "",
+            "client": {
+                "srv_discovery_url": "https://accounts.google.com/",
+                "client_registration": {
+                    "client_id": "",
+                    "client_secret": "",
+                    "redirect_uris": ["%s" % module_base],
+                },
+                "behaviour": {
+                    "response_type": "code",
+                    "scope": ["openid", "profile", "email", "address", "phone"],
+                },
+                "userinfo_request_method": "GET",
+                "allow": {
+                    "issuer_mismatch": True,
+                    "userinfo_request_method": "GET"
+                }
+            },
+            "op_info": {
+                "contact_person": [
+                    {
+                        "contact_type": "technical",
+                        "given_name": "Test",
+                        "sur_name": "GOOGLE",
+                        "email_address": ["technical@example.com", "support@example.com"],
+
+                    }, {
+                        "contact_type": "support",
+                        "given_name": "Support",
+                        "email_address": ["support@example.com"]
+                    },
+                ],
+                "organization": {
+                    "display_name": [("OP Google Identities", "en")],
+                    "name": [("En google test-OP", "se"), ("A google test OP", "en")],
+                    "url": [("http://www.google.com", "en"), ("http://www.google.se", "se")],
+                },
+                "ui_info": {
+                    "display_name": [("OP - GOOGLE - TEST", "en")],
+                    "description": [("This is a google test OP", "en")],
+                "logo": [
+                    {
+                        "url": "",
+                        "width": "120",
+                        "height": "60",
+                        "lang": "en"
+                    }
+                ],
+                },
+            }
+        }
+        super(OpenidPlugin, self).__init__(OpenIdBackend, PROVIDER, config)

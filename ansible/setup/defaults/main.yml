@@ -1,0 +1,16 @@
+vopaas_env: "{{ installation_dir }}/virtualenv"
+cert_dir: "{{ installation_dir }}/certs"
+proxy_dir: "{{ installation_dir }}/proxy"
+plugin_dir: "{{ proxy_dir }}/plugins"
+backend_plugin_dir: "{{ plugin_dir }}/backends"
+frontend_plugin_dir: "{{ plugin_dir }}/frontends"
+
+proxy_server_cm_pub_key: "{{ cert_dir }}/cm.pub"
+proxy_server_cert: "{{ cert_dir }}/proxy_server.crt"
+proxy_server_key: "{{ cert_dir }}/proxy_server.key"
+
+proxy_frontend_cert: "{{ cert_dir }}/proxy_frontend.crt"
+proxy_frontend_key: "{{ cert_dir }}/proxy_frontend.key"
+
+proxy_backend_cert: "{{ cert_dir }}/proxy_backend.crt"
+proxy_backend_key: "{{ cert_dir }}/proxy_backend.key"

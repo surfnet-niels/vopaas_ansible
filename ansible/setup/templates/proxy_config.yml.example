@@ -1,0 +1,38 @@
+#--- SATOSA Config ---#
+HOST: "{{ hostname }}"
+PORT: {{ proxy_port }}
+HTTPS: Yes
+INTERNAL_ATTRIBUTES: 'internal_attributes.yaml'
+PLUGIN_PATH:
+  - "{{ frontend_plugin_dir }}"
+  - "{{ backend_plugin_dir }}"
+BACKEND_MODULES:
+  - "saml2_backend"
+  - "oidc_backend"
+  - "google_backend"
+  - "fb_backend"
+FRONTEND_MODULES:
+  - "saml2_frontend"
+USER_ID_HASH_SALT: ""
+CONSENT:
+  enable: Yes
+  service.rest_uri: ""
+  service.consent_redirect: ""
+  endpoint: "handle_consent"
+  sign_key: "{{ proxy_server_cm_pub_key }}"
+  state_enc_key: ""
+  verify_ssl: No
+
+#--- Server Config ---#
+SERVER_CERT: "{{ proxy_server_cert }}"
+SERVER_KEY: "{{ proxy_server_key }}"
+CERT_CHAIN: Null
+STATIC_DIR: "/static"
+LOG_FILE: "server.log"
+
+# Beaker session configuration
+# This session can be configured to use database, file, or memory
+SESSION_OPTS:
+    session.type: "memory"
+    session.cookie_expires: Yes  # Expire when the session is closed
+    session.auto: Yes
