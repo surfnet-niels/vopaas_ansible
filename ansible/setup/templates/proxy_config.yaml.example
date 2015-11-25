@@ -3,6 +3,8 @@ HOST: "{{ hostname }}"
 PORT: {{ proxy_port }}
 HTTPS: Yes
 INTERNAL_ATTRIBUTES: 'internal_attributes.yaml'
+COOKIE_STATE_NAME: "VOPAAS_STATE"
+STATE_ENCRYPTION_KEY: ""
 PLUGIN_PATH:
   - "{{ frontend_plugin_dir }}"
   - "{{ backend_plugin_dir }}"

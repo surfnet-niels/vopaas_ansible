@@ -1,4 +1,5 @@
-vopaas_env: "{{ installation_dir }}/virtualenv"
+xmlsec_binary: "/usr/bin/xmlsec1"
+
 cert_dir: "{{ installation_dir }}/certs"
 proxy_dir: "{{ installation_dir }}/proxy"
 plugin_dir: "{{ proxy_dir }}/plugins"

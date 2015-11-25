@@ -8,6 +8,7 @@
 
   vars:
     installation_dir: "{{ home.stdout }}/vopaas"
+    vopaas_env: "{{ installation_dir }}/virtualenv"
     hostname: "127.0.0.1"
     proxy_port: "9091"
 

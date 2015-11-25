@@ -23,54 +23,17 @@
 - name: create virtualenv
   command: virtualenv --python=/usr/bin/python3 {{ vopaas_env }}
 
-- name: fetch jwkest from github
-  git:
-    repo=https://github.com/rohe/pyjwkest
-    dest={{ external_dep_src_dir }}/jwkest
-    version=6928cc9c4490389b91e064422e1fe2a7ad7cf5c8
-    force=yes
-
-- name: fetch pysaml2 from github
-  git:
-    repo=https://github.com/its-dirg/pysaml2
-    dest={{ external_dep_src_dir }}/pysaml2
-    version=0b1b3c7f2f92391b08c0c9b64ba2f1d6c6966dfa
-    force=yes
-
-- name: fetch pyoidc from github
-  git:
-    repo=https://github.com/its-dirg/pyoidc
-    dest={{ external_dep_src_dir }}/pyoidc
-    version=4ad7333d4afa0f2da82fdc761d8086a603f52597
-    force=yes
-
-- name: fetch SATOSA from github
-  git:
-    repo=https://github.com/its-dirg/SATOSA
-    dest={{ external_dep_src_dir }}/satosa
-    version=65ac2f4cc00a97db20267b849e109a417da1c215
-    force=yes
-
 - name: fetch VOPaaS from github
   git:
     repo=https://github.com/its-dirg/VOPaaS
     dest={{ vopaas_src_dir }}
-    version=4c413ee638df813c5a2394255da8740a5ed45bdd
+    version=0660c28052e1f286efc7e7ae32f784512634c2f2
     force=yes
 
 - name: install vopaas
   pip:
-    name={{ item }} virtualenv={{ vopaas_env }}
-  with_items:
-    - "{{ external_dep_src_dir }}/jwkest"
-    - "{{ external_dep_src_dir }}/pysaml2"
-    - "{{ external_dep_src_dir }}/pyoidc"
-    - "{{ external_dep_src_dir }}/satosa"
-    - "{{ vopaas_src_dir }}"
+    name={{ vopaas_src_dir }} virtualenv={{ vopaas_env }}
 
-- name: install requirements
-  pip: name={{ item }} virtualenv={{ vopaas_env }}
-  with_items:
-    - CherryPy
-    - Beaker
-    - Werkzeug
+- name: install vopaas
+  pip:
+    requirements={{ vopaas_src_dir }}/requirements.txt virtualenv={{ vopaas_env }}

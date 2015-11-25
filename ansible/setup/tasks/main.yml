@@ -1,11 +1,10 @@
-- name: Create cert directory
-  file: path={{ cert_dir }} state=directory mode=0744
-
-- name: Create backend plugin directory
-  file: path={{ backend_plugin_dir }} state=directory mode=0744
-
-- name: Create frontend plugin directory
-  file: path={{ frontend_plugin_dir }} state=directory mode=0744
+- name: Create directories
+  file: path={{ item }} state=directory mode=0744
+  with_items:
+    - "{{ cert_dir }}"
+    - "{{ backend_plugin_dir }}"
+    - "{{ frontend_plugin_dir }}"
+    - "{{ proxy_dir }}"
 
 # Server keys
 - name: copy proxy cert
@@ -27,17 +26,11 @@
 - name: copy frontend private key
   copy: src=certs/proxy_frontend.key dest={{ proxy_frontend_key }} mode=0444
 
-- name: create proxy directory
-  file: path={{ proxy_dir }} state=directory mode=0744
-
-- name: Add proxy server
-  copy: src=proxy_server.py dest={{ proxy_dir }}/proxy_server.py
-
 - name: Add proxy config
-  template: src=proxy_config.yml dest={{ proxy_dir }}/proxy_config.yml
+  template: src=proxy_config.yaml dest={{ proxy_dir }}/proxy_config.yaml
 
 - name: Add internal attributes config
-  copy: src=internal_attributes.yml dest={{ proxy_dir }}/internal_attributes.yml
+  copy: src=internal_attributes.yaml dest={{ proxy_dir }}/internal_attributes.yaml
 
 - name: Add all frontend plugins
   template: src={{ item }} dest={{ frontend_plugin_dir }}/{{ item | basename }}
@@ -48,6 +41,13 @@
   template: src={{ item }} dest={{ backend_plugin_dir }}/{{ item | basename }}
   with_fileglob:
     - ../templates/plugins/backends/*
+
+- name: install requirements
+  pip: name={{ item }} virtualenv={{ vopaas_env }}
+  with_items:
+    - CherryPy
+    - Beaker
+    - Werkzeug
 
 - name: Add VOPaaS proxy job
   template: src=vopaas_proxy.conf dest=/etc/init/vopaas_proxy.conf
