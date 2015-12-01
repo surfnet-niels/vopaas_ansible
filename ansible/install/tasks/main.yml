@@ -27,13 +27,13 @@
   git:
     repo=https://github.com/its-dirg/VOPaaS
     dest={{ vopaas_src_dir }}
-    version=0660c28052e1f286efc7e7ae32f784512634c2f2
+    version=d98e60ab0814a65c64623e693ef6d5b934823315
     force=yes
 
 - name: install vopaas
   pip:
     name={{ vopaas_src_dir }} virtualenv={{ vopaas_env }}
 
-- name: install vopaas
+- name: install requirements
   pip:
     requirements={{ vopaas_src_dir }}/requirements.txt virtualenv={{ vopaas_env }}

@@ -1,0 +1,13 @@
+- name: Create metadata folders
+  file: path={{ item }} state=directory mode=0744
+  with_items:
+    - "{{ backend_metadata_location }}"
+    - "{{ frontend_metadata_location }}"
+
+- name: Generating backend metadata
+  shell:
+    "{{ vopaas_env }}/bin/make_saml_metadata.py -b -o {{ backend_metadata_location }} {{ proxy_dir }}/proxy_config.yaml"
+
+- name: Generating frontend metadata
+  shell:
+    "{{ vopaas_env }}/bin/make_vopaas_metadata.py -o {{ frontend_metadata_location }} {{ proxy_dir }}/proxy_config.yaml chdir={{ proxy_dir }}"

@@ -1,34 +1,37 @@
 module: vopaas.frontends.saml2_frontend.VOPaaSSamlFrontend
 plugin: FrontendModulePlugin
-name: "VOPaaS_SAML_FRONT"
+name: Saml2IDP
+
 config:
-  base: "<base_url>"
-  endpoints:
-    single_sign_on_service: {'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST': sso/post,
-      'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect': sso/redirect}
   idp_config:
-    cert_file: "{{ proxy_frontend_cert }}"
-    debug: No
-    description: ""
-    entityid: "<base_url>/<name>/proxy.xml"
     key_file: "{{ proxy_frontend_key }}"
-    logger:
-      loglevel: "info"
-      rotating: {backupCount: 5, filename: "idp.log", maxBytes: 500000}
+    cert_file: "{{ proxy_frontend_cert }}"
     metadata:
-      local: []
+      local: [metadata/sp.xml]
+
+    entityid: <base_url>/<name>/vopaas_proxy.xml
     service:
       idp:
+        want_authn_requests_signed: false
         endpoints:
-          single_sign_on_service: []
-        name: ""
-        name_id_format: ['urn:oasis:names:tc:SAML:2.0:nameid-format:persistent', 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient']
+          single_sign_on_service: [] # Leave this empty, the endpoints will be added dynamically when registering endpoints in the module
+        name_id_format: ['urn:oasis:names:tc:SAML:2.0:nameid-format:persistent']
         policy:
           default:
             attribute_restrictions: null
-            fail_on_missing_requested: No
+            fail_on_missing_requested: false
             lifetime: {minutes: 15}
-            name_form: "urn:oasis:names:tc:SAML:2.0:attrname-format:uri"
-        subject_data: "./idp.subject"
-        want_authn_requests_signed: No
+            name_form: urn:oasis:names:tc:SAML:2.0:attrname-format:uri
+        subject_data: idp_subject_data
+
     xmlsec_binary: "{{ xmlsec_binary }}"
+
+    logger:
+      loglevel: info
+      rotating: {backupCount: 5, filename: idp.log, maxBytes: 500000}
+
+  base: <base_url>
+  endpoints:
+    single_sign_on_service:
+      'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST': sso/post
+      'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect': sso/redirect

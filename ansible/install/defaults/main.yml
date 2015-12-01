@@ -1,2 +1,1 @@
 vopaas_src_dir: "{{ installation_dir }}/vopaas_src"
-external_dep_src_dir: "{{ installation_dir }}/external_dep_src"

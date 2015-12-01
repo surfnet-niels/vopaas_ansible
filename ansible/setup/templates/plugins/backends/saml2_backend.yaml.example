@@ -1,30 +1,33 @@
+module: vopaas.backends.saml2_backend.VOPaaSSamlBackend
+name: Saml2SP
+plugin: BackendModulePlugin
+
 config:
   config:
-    cert_file: {{ proxy_backend_cert }}
+    organization: {display_name: Example Identities, name: Example Identities Org., url: 'https://www.example.com'}
     contact_person:
-    - {contact_type: technical, email_address: technical@example.com, given_name: Technical}
-    - {contact_type: support, email_address: support@example.com, given_name: Support}
-    debug: 1
-    description: A SAML2 SP MODULE
-    entityid: <base_url>/<name>/proxy_saml2_backend.xml
-    key_file: {{ proxy_backend_key }}
-    logger:
-      loglevel: debug
-      rotating: {backupCount: 5, filename: idp.log, maxBytes: 500000}
+      - {contact_type: technical, email_address: technical@example.com, given_name: Technical}
+      - {contact_type: support, email_address: support@example.com, given_name: Support}
+
+    key_file: "{{ proxy_backend_key }}"
+    cert_file: "{{ proxy_backend_cert }}"
+
     metadata:
-      local: []
-    organization: {display_name: Example Identities, name: Example Identiteter, url: 'http://www.example.com'}
+      local: [metadata/idp.xml]
+
+    entityid: <base_url>/<name>/proxy_saml2_backend.xml
     service:
       sp:
         allow_unsolicited: true
         endpoints:
           assertion_consumer_service:
-          - [<base_url>/<name>/acs/post, 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST']
-          - [<base_url>/<name>/acs/redirect, 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect']
-    valid_for: 168
-    xmlsec_binary: {{ xmlsec_binary }}
-  encryption_key:
+            - [<base_url>/<name>/acs/post, 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST']
+            - [<base_url>/<name>/acs/redirect, 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect']
+
+    xmlsec_binary: /usr/bin/xmlsec1
+
+    logger:
+      loglevel: debug
+      rotating: {backupCount: 5, filename: sp.log, maxBytes: 500000}
+
   publish_metadata: <base_url>/<name>/metadata
-module: satosa.backends.saml2.SamlBackend
-name: Saml2
-plugin: BackendModulePlugin

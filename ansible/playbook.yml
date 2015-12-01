@@ -1,5 +1,6 @@
 - hosts: all
 
+  # Get home folder path
   pre_tasks:
     - name: Register home directory
       command: echo $HOME
@@ -7,11 +8,26 @@
       sudo: No
 
   vars:
+    # The vopaas proxy installation folder
     installation_dir: "{{ home.stdout }}/vopaas"
+    # Where to save the python virtual environ
     vopaas_env: "{{ installation_dir }}/virtualenv"
-    hostname: "127.0.0.1"
+    # Where the generated backend metadata should be placed
+    backend_metadata_location: "{{ installation_dir }}/metadata/backend"
+    # Where the generated frontend metadata should be placed
+    frontend_metadata_location: "{{ installation_dir }}/metadata/frontend"
+    # Proxy host name
+    hostname: "10.211.55.12"
+    # Proxy port
     proxy_port: "9091"
 
+    # Needs to be global for when generating metadata
+    proxy_dir: "{{ installation_dir }}/proxy"
+
   roles:
+#    # Install all python libraries to the virtual env
     - {role: install, sudo: no}
+    # Setup the proxy with configurations and module plugins
     - {role: setup, sudo: no}
+    # Generate metadata for the proxy frontend and backend
+    - {role: generate_metadata, sudo: no}

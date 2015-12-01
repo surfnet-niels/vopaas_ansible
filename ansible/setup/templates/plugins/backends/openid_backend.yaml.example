@@ -1,6 +1,7 @@
 module: vopaas.backends.oidc_backend.VOPaaSOpenIdBackend
 name: openid_connect
 plugin: BackendModulePlugin
+
 config:
   acr_values: [PASSWORD]
   authz_page: <name>
@@ -18,31 +19,30 @@ config:
       subject_type: pairwise
     userid:
   op_url:
-  state_encryption_key:
   state_id:
   verify_ssl: false
   op_info:
     contact_person:
     - contact_type:
-      email_address: []
-      given_name:
-      sur_name:
+        email_address: []
+        given_name:
+        sur_name:
     - contact_type:
-      email_address: []
-      given_name:
+        email_address: []
+        given_name:
     organization:
       display_name:
-      - ["", en]
+        - ["", en]
       name:
-      - ["", se]
-      - ["", en]
+        - ["", se]
+        - ["", en]
       url:
-      - ["", en]
-      - ["", se]
+        - ["", en]
+        - ["", se]
     ui_info:
       description:
-      - ["", en]
+        - ["", en]
       display_name:
-      - ["", en]
+        - ["", en]
       logo:
-      - {height: '', lang: en, url: '', width: ''}
+        - {height: '', lang: en, url: '', width: ''}

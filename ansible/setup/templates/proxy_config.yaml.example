@@ -2,7 +2,7 @@
 HOST: "{{ hostname }}"
 PORT: {{ proxy_port }}
 HTTPS: Yes
-INTERNAL_ATTRIBUTES: 'internal_attributes.yaml'
+INTERNAL_ATTRIBUTES: "internal_attributes.yaml"
 COOKIE_STATE_NAME: "VOPAAS_STATE"
 STATE_ENCRYPTION_KEY: ""
 PLUGIN_PATH:
@@ -21,8 +21,15 @@ CONSENT:
   service.rest_uri: ""
   service.consent_redirect: ""
   endpoint: "handle_consent"
-  sign_key: "{{ proxy_server_cm_pub_key }}"
+  sign_key: "{{ proxy_jwt_signing_key }}"
   state_enc_key: ""
+  verify_ssl: No
+ACCOUNT_LINKING:
+  enable: No
+  rest_uri: ""
+  redirect: ""
+  endpoint: "handle_account_linking"
+  sign_key: "{{ proxy_jwt_signing_key }}"
   verify_ssl: No
 
 #--- Server Config ---#

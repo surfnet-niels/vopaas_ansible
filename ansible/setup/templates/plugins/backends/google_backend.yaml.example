@@ -1,8 +1,9 @@
 module: satosa.backends.openid_connect.OpenIdBackend
 name: google
 plugin: BackendModulePlugin
+
 config:
-  acr_values: [PASSWORD]
+  acr_values: Null
   authz_page: <name>
   client:
     allow: {issuer_mismatch: true, userinfo_request_method: GET}
@@ -13,10 +14,7 @@ config:
       client_id:
       client_secret:
       redirect_uris: [<base_url>/<name>]
-    srv_discovery_url: https://accounts.google.com/
     userinfo_request_method: GET
   op_url: https://accounts.google.com
-  state_encryption_key:
   state_id:
   verify_ssl: false
-
