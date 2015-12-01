@@ -17,7 +17,7 @@
     # Where the generated frontend metadata should be placed
     frontend_metadata_location: "{{ installation_dir }}/metadata/frontend"
     # Proxy host name
-    hostname: "10.211.55.12"
+    hostname: "127.0.0.1"
     # Proxy port
     proxy_port: "9091"
 
