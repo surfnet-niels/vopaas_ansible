@@ -30,4 +30,5 @@ config:
       loglevel: debug
       rotating: {backupCount: 5, filename: sp.log, maxBytes: 500000}
 
+  state_id: <name>
   publish_metadata: <base_url>/<name>/metadata

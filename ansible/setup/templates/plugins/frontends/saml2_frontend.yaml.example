@@ -30,6 +30,7 @@ config:
       loglevel: info
       rotating: {backupCount: 5, filename: idp.log, maxBytes: 500000}
 
+  state_id: <name>
   base: <base_url>
   endpoints:
     single_sign_on_service:
