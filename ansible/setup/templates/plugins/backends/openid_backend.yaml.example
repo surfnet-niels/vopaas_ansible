@@ -45,4 +45,4 @@ config:
       display_name:
         - ["", en]
       logo:
-        - {height: '', lang: en, url: '', width: ''}
+        - {width: '', height: '', lang: en, image: ''}
