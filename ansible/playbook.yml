@@ -17,7 +17,7 @@
     # Where the generated frontend metadata should be placed
     frontend_metadata_location: "{{ installation_dir }}/metadata/frontend"
     # Proxy host name
-    hostname: "127.0.0.1"
+    hostname: "{{ inventory_hostname }}"
     # Proxy port
     proxy_port: "9091"
 
@@ -25,7 +25,9 @@
     proxy_dir: "{{ installation_dir }}/proxy"
 
   roles:
-#    # Install all python libraries to the virtual env
+    # Install nginx to handle ssl
+    - {role: nginx}
+    # Install all python libraries to the virtual env
     - {role: install, sudo: no}
     # Setup the proxy with configurations and module plugins
     - {role: setup, sudo: no}

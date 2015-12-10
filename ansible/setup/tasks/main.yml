@@ -12,7 +12,7 @@
     - ../files/certs/*
 
 - name: Add proxy config
-  template: src=proxy_config.yaml dest={{ proxy_dir }}/proxy_config.yaml
+  template: src=proxy_conf.yaml dest={{ proxy_dir }}/proxy_conf.yaml
 
 - name: Add internal attributes config
   copy: src=internal_attributes.yaml dest={{ proxy_dir }}/internal_attributes.yaml

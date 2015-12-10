@@ -1,0 +1,36 @@
+- name: add nginx repository
+  apt_repository: repo=ppa:nginx/stable
+  sudo: Yes
+
+- name: install apt pkg
+  apt: pkg=nginx state=present update_cache=yes
+  sudo: Yes
+
+- name: Create nginx cert dir
+  file: path={{ nginx_cert_dir }} state=directory mode=0744
+  sudo: No
+
+- name: Copy nginx cert
+  copy: src=nginx.crt dest={{ nginx_ssl_cert}} mode=0444
+  sudo: No
+
+- name: Copy nginx key
+  copy: src=nginx.key dest={{ nginx_ssl_key}} mode=0444
+  sudo: No
+
+- name: remove default nginx config
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  sudo: Yes
+
+- name: add nginx config to sites-available
+  template: src=nginx.conf.j2
+            dest=/etc/nginx/sites-available/{{ hostname }}
+  sudo: Yes
+
+- name: add nginx config to sites-enabled
+  template: src=nginx.conf.j2
+            dest=/etc/nginx/sites-enabled/{{ hostname }}
+
+- name: Start nginx
+  command: restart nginx
+  sudo: Yes
