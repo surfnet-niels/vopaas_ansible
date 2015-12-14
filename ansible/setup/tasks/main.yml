@@ -4,6 +4,7 @@
     - "{{ cert_dir }}"
     - "{{ backend_plugin_dir }}"
     - "{{ frontend_plugin_dir }}"
+    - "{{ micro_service_dir }}"
     - "{{ proxy_dir }}"
 
 - name: Copy all keys from certs
@@ -26,6 +27,11 @@
   template: src={{ item }} dest={{ backend_plugin_dir }}/{{ item | basename }}
   with_fileglob:
     - ../templates/plugins/backends/*
+
+- name: Add all micro service plugins
+  template: src={{ item }} dest={{ micro_service_dir }}/{{ item | basename }}
+  with_fileglob:
+    - ../templates/plugins/micro_services/*
 
 - name: Add VOPaaS proxy job
   template: src=vopaas_proxy.conf dest=/etc/init/vopaas_proxy.conf

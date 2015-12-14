@@ -4,9 +4,7 @@ cert_dir: "{{ installation_dir }}/certs"
 plugin_dir: "{{ proxy_dir }}/plugins"
 backend_plugin_dir: "{{ plugin_dir }}/backends"
 frontend_plugin_dir: "{{ plugin_dir }}/frontends"
-
-proxy_server_cert: "{{ cert_dir }}/proxy_server.crt"
-proxy_server_key: "{{ cert_dir }}/proxy_server.key"
+micro_service_dir: "{{ plugin_dir }}/micro_services"
 
 proxy_jwt_signing_key: "{{cert_dir}}/proxy_jwt_sig.key"
 
