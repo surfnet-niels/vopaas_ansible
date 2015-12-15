@@ -18,3 +18,16 @@ config:
   op_url: https://accounts.google.com
   state_id:
   verify_ssl: false
+  op_info:
+    organization:
+      display_name:
+      - ["Google", "en"]
+      name:
+      - ["Google", "en"]
+      url:
+      - ["https://www.google.com/about/", "en"]
+    ui_info:
+      description:
+      - ["Google OP", "en"]
+      display_name:
+      - ["Google", "en"]

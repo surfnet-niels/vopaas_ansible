@@ -1,4 +1,4 @@
-module: vopaas.frontends.saml2_frontend.VOPaaSSamlFrontend
+module: satosa.frontends.saml2.SamlMirrorFrontend
 plugin: FrontendModulePlugin
 name: Saml2IDP
 
