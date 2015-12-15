@@ -1,15 +1,24 @@
+# Path to xmlsec1 binary
 xmlsec_binary: "/usr/bin/xmlsec1"
 
+# Where to put all the cert files
 cert_dir: "{{ installation_dir }}/certs"
+# Where to put all the plugins
 plugin_dir: "{{ proxy_dir }}/plugins"
+# Where to put all the backend plugins
 backend_plugin_dir: "{{ plugin_dir }}/backends"
+# Where to put all the frontend plugins
 frontend_plugin_dir: "{{ plugin_dir }}/frontends"
+# Where to put all the micro service pluings
 micro_service_dir: "{{ plugin_dir }}/micro_services"
 
+# Where to put the signing key
 proxy_jwt_signing_key: "{{cert_dir}}/proxy_jwt_sig.key"
 
+# Where to put the frontend key files
 proxy_frontend_cert: "{{ cert_dir }}/proxy_frontend.crt"
 proxy_frontend_key: "{{ cert_dir }}/proxy_frontend.key"
 
+# Where to put the backend key files
 proxy_backend_cert: "{{ cert_dir }}/proxy_backend.crt"
 proxy_backend_key: "{{ cert_dir }}/proxy_backend.key"
