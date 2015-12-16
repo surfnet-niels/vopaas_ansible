@@ -21,7 +21,7 @@
     # Proxy port
     proxy_port: "9091"
 
-    # Needs to be global for when generating metadata
+    # Need to be global for when generating metadata
     proxy_dir: "{{ installation_dir }}/proxy"
 
   roles:
