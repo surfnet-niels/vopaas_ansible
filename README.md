@@ -10,7 +10,7 @@ the proxy.
 The role creates a virtual environment for the python libraries.
 * **setup**: Copies all configuration files and adds a job configuration for easy start/stop/restart
 of the proxy.
-* **generate_metadata**: Generates SAML2 metadata for the proxy. 
+* **generate_metadata**: Generates SAML2 metadata from the proxy. 
 Both for the backends and the frontends
 
 # Setting up the installation
