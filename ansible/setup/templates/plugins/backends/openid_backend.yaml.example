@@ -22,12 +22,12 @@ config:
   state_id:
   verify_ssl: false
   op_info:
-    contact_person:
+    contact_person: technical
     - contact_type:
         email_address: []
         given_name:
         sur_name:
-    - contact_type:
+    - contact_type: support
         email_address: []
         given_name:
     organization:
