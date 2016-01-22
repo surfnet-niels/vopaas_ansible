@@ -1,31 +1,32 @@
 #--- SATOSA Config ---#
-BASE: "https://{{ hostname }}"
+BASE: https://{{ hostname }}:{{ proxy_port }}
 INTERNAL_ATTRIBUTES: "{{ proxy_dir }}/internal_attributes.yaml"
 COOKIE_STATE_NAME: "VOPAAS_STATE"
 STATE_ENCRYPTION_KEY: ""
 PLUGIN_PATH:
   - "{{ frontend_plugin_dir }}"
   - "{{ backend_plugin_dir }}"
+  - "{{ micro_service_dir }}"
 BACKEND_MODULES:
-  - "saml_backend"
-  - "oidc_backend"
+  - "saml2_backend"
+  - "openid_backend"
   - "google_backend"
   - "fb_backend"
 FRONTEND_MODULES:
-  - "saml_frontend"
+  - "saml2_frontend"
 MICRO_SERVICES:
-  - "statistics_service.yaml"
+  - "statistics_service"
 USER_ID_HASH_SALT: ""
 CONSENT:
   enable: Yes
-  service.rest_uri: ""
-  service.consent_redirect: ""
+  rest_uri: ""
+  redirect: ""
   endpoint: "handle_consent"
   sign_key: "{{ proxy_jwt_signing_key }}"
   state_enc_key: ""
   verify_ssl: No
 ACCOUNT_LINKING:
-  enable: No
+  enable: Yes
   rest_uri: ""
   redirect: ""
   endpoint: "handle_account_linking"
@@ -34,28 +35,28 @@ ACCOUNT_LINKING:
 LOGGING:
   version: 1
   formatters:
-    standard:
+    simple:
       format: "[%(asctime)-19.19s] [%(levelname)-5.5s]: %(message)s"
   handlers:
-    default:
-      level: "INFO"
-      class: "logging.FileHandler"
-      filename: "vopaas.log"
-      formatter: "standard"
+    info_file_handler:
+      class: logging.handlers.RotatingFileHandler
+      level: INFO
+      formatter: simple
+      filename: info.log
+      maxBytes: 10485760 # 10MB
+      backupCount: 20
+      encoding: utf8
+    satosa_file_handler:
+      class: logging.FileHandler
+      level: DEBUG
+      formatter: simple
+      filename: satosa.log
+      encoding: utf8
   loggers:
     satosa:
-      handlers: ["default"]
-      level: "INFO"
-      propagate: Yes
-    vopaas:
-      handlers: ["default"]
-      level: "INFO"
-      propagate: Yes
-    saml:
-      handlers: ["default"]
-      level: "WARN"
-      propagate: Yes
-    oic:
-      handlers: ["default"]
-      level: "WARN"
-      propagate: Yes
+      level: DEBUG
+      handlers: [satosa_file_handler]
+      propagate: no
+  root:
+    level: INFO
+    handlers: [info_file_handler]

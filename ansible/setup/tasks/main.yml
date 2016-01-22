@@ -1,6 +1,7 @@
 - name: Create directories
-  file: path={{ item }} state=directory mode=0744
+  file: path={{ item }} state=directory mode=0755
   with_items:
+    - "{{ plugin_dir }}"
     - "{{ cert_dir }}"
     - "{{ backend_plugin_dir }}"
     - "{{ frontend_plugin_dir }}"
@@ -13,10 +14,10 @@
     - ../files/certs/*
 
 - name: Add proxy config
-  template: src=proxy_conf.yaml dest={{ proxy_dir }}/proxy_conf.yaml
+  template: src=proxy_conf.yaml.example dest={{ proxy_dir }}/proxy_conf.yaml
 
 - name: Add internal attributes config
-  copy: src=internal_attributes.yaml dest={{ proxy_dir }}/internal_attributes.yaml
+  copy: src=internal_attributes.yaml.example dest={{ proxy_dir }}/internal_attributes.yaml
 
 - name: Add all frontend plugins
   template: src={{ item }} dest={{ frontend_plugin_dir }}/{{ item | basename }}

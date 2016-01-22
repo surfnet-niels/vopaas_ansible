@@ -22,3 +22,9 @@ proxy_frontend_key: "{{ cert_dir }}/proxy_frontend.key"
 # Where to put the backend key files
 proxy_backend_cert: "{{ cert_dir }}/proxy_backend.crt"
 proxy_backend_key: "{{ cert_dir }}/proxy_backend.key"
+
+vopaas_stat_key: "{{ cert_dir }}/vopaas_stat.key"
+vopaas_stat_pub_key: "{{ cert_dir }}/vopaas_stat.pub"
+
+proxy_server_key: "{{ cert_dir }}/proxy_server.key"
+proxy_server_cert: "{{ cert_dir }}/proxy_server.crt"

@@ -30,5 +30,8 @@ config:
       loglevel: debug
       rotating: {backupCount: 5, filename: sp.log, maxBytes: 500000}
 
+  # disco_srv must be defined if there is more than one IdP in the metadata specified above
+  #disco_srv:
   state_id: <name>
+  hash_type: persistent
   publish_metadata: <base_url>/<name>/metadata

@@ -16,7 +16,7 @@ attributes:
   mail:
     facebook: [email]
     openid: [email]
-    saml: [mail, emailAdress, email]
+    saml: [email, emailAdress, mail]
   name:
     facebook: [name]
     openid: [name]
@@ -25,5 +25,6 @@ attributes:
     facebook: [last_name]
     openid: [family_name]
     saml: [sn, surname]
-user_id_to_attr: edupersontargetedid
 hash: [edupersontargetedid]
+#user_id_from_attr: [edupersontargetedid]
+user_id_to_attr: edupersontargetedid

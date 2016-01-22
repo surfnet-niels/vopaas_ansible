@@ -27,7 +27,7 @@
   git:
     repo=https://github.com/its-dirg/VOPaaS
     dest={{ vopaas_src_dir }}
-    version=9f779034f902e2151128bddf2f14b22f58bcc6ff
+    version=3ded2f8c736d6c21641d581f891c8e68efd726de
     force=yes
 
 - name: install vopaas
