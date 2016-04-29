@@ -27,19 +27,7 @@
             dest=/etc/nginx/sites-available/{{ hostname }}
   sudo: Yes
 
-- stat: path=/etc/nginx/sites-enabled/{{ hostname }}
-  register: links
-- debug: msg="link exists"
-  when: links.stat.islnk is defined and links.stat.islnk
-
-#- name: enable config
-#  command: ln -s /etc/nginx/sites-available/{{ hostname }} /etc/nginx/sites-enabled/{{ hostname }}
-
-#- name: Start nginx
-# command: restart nginx
-#  sudo: Yes
-
 - name: Create symlink to {{ hostname }} in sites-enabled
   file: src=/etc/nginx/sites-available/{{ hostname }} dest=//etc/nginx/sites-enabled/{{ hostname }} state=link
   notify: nginx reload
-  
+  sudo: Yes
