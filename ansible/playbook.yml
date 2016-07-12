@@ -16,10 +16,19 @@
     backend_metadata_location: "{{ installation_dir }}/metadata/backend"
     # Where the generated frontend metadata should be placed
     frontend_metadata_location: "{{ installation_dir }}/metadata/frontend"
+
+    # SATOSA config
+ 
     # Proxy host name
-    hostname: "{{ inventory_hostname }}"
+    proxy_hostname: "127.0.0.1"
     # Proxy port
     proxy_port: "9091"
+    # Need to be global for when generating metadata
+    proxy_dir: "{{ installation_dir }}/proxy"
+
+    #Nginx config
+    nginx_hostname: "{{ inventory_hostname }}"
+    nginx_port: "443"
 
     # Need to be global for when generating metadata
     proxy_dir: "{{ installation_dir }}/proxy"

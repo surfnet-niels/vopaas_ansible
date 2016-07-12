@@ -1,4 +1,5 @@
 ---
-installation_dir: /opt
-hostname: 10.0.2.15
-
+proxy_hostname: 127.0.0.1
+proxy_port: 9091
+nginx_hostname: 145.100.180.53
+nginx_post: 443

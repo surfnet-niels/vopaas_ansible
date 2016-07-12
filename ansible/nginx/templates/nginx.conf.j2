@@ -1,11 +1,11 @@
 server {
-    listen 443 ssl;
+    listen {{ nginx_port }} ssl;
     ssl_certificate {{ nginx_ssl_cert }};
     ssl_certificate_key {{ nginx_ssl_key }};
-    server_name {{ hostname }};
+    server_name {{ nginx_hostname }};
 
     location / {
         proxy_set_header Host $host;
-        proxy_pass http://{{ hostname }}:{{ proxy_port }};
+        proxy_pass http://{{ proxy_hostname }}:{{ proxy_port }};
     }
 }

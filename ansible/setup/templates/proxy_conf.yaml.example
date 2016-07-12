@@ -1,5 +1,5 @@
 #--- SATOSA Config ---#
-BASE: https://{{ hostname }}:{{ proxy_port }}
+BASE: https://{{ nginx_hostname }}:{{ nginx_port }}
 INTERNAL_ATTRIBUTES: "{{ proxy_dir }}/internal_attributes.yaml"
 COOKIE_STATE_NAME: "VOPAAS_STATE"
 STATE_ENCRYPTION_KEY: ""

@@ -1,5 +1,5 @@
-#nginx_ssl_cert: "{{ cert_dir }}/{{ hostname }}.pem"
-#nginx_ssl_key: "{{ cert_dir }}/{{ hostname }}.key"
+#nginx_ssl_cert: "{{ cert_dir }}/{{ nginx_hostname }}.pem"
+#nginx_ssl_key: "{{ cert_dir }}/{{ nginx_hostname }}.key"
 
 # Where to put the nginx key files
 nginx_cert_dir: "{{ installation_dir }}/nginx_cert"
