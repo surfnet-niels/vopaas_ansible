@@ -3,6 +3,7 @@
   with_items:
     - "{{ backend_metadata_location }}"
     - "{{ frontend_metadata_location }}"
+    - "{{ remote_metadata_location }}"
 
 - name: Generating backend metadata
   shell:
