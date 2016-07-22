@@ -16,6 +16,8 @@
     backend_metadata_location: "{{ installation_dir }}/metadata/backend"
     # Where the generated frontend metadata should be placed
     frontend_metadata_location: "{{ installation_dir }}/metadata/frontend"
+    # Where remote metadata should be placed
+    remote_metadata_location: "{{ installation_dir }}/metadata/remote"
 
     # SATOSA config
  
@@ -27,18 +29,15 @@
     proxy_dir: "{{ installation_dir }}/proxy"
 
     #Nginx config
-    nginx_hostname: "{{ inventory_hostname }}"
+    nginx_hostname: "vopaasteip.pt-27.utr.surfcloud.nl"
     nginx_port: "443"
-
-    # Need to be global for when generating metadata
-    proxy_dir: "{{ installation_dir }}/proxy"
 
   roles:
     # Install nginx to handle ssl
     - {role: nginx, sudo: yes}
     # Install all python libraries to the virtual env
-    - {role: install, sudo: yes}
+    - {role: install, sudo: no}
     # Setup the proxy with configurations and module plugins
-    - {role: setup, sudo: yes}
+    - {role: setup, sudo: no}
     # Generate metadata for the proxy frontend and backend
-    - {role: generate_metadata, sudo: yes}
+    - {role: generate_metadata, sudo: no}
