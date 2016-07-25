@@ -41,5 +41,6 @@
     - {role: install, sudo: no}
     # Setup the proxy with configurations and module plugins
     - {role: setup, sudo: no}
+    # Provision proxy endpoints
     # Generate metadata for the proxy frontend and backend
     - {role: generate_metadata, sudo: no}
