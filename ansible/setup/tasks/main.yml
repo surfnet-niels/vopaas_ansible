@@ -7,6 +7,7 @@
     - "{{ frontend_plugin_dir }}"
     - "{{ micro_service_dir }}"
     - "{{ proxy_dir }}"
+    - "{{ scripts_dir }}"
 
 - name: Copy all keys from certs
   copy: src={{ item }} dest={{ cert_dir }}/{{ item | basename }} mode=0444
@@ -37,3 +38,9 @@
 - name: Add VOPaaS proxy job
   template: src=vopaas_proxy.conf dest=/etc/init/vopaas_proxy.conf
   sudo: Yes
+
+- name: Add VOPaaS metadata generation script
+  template: src=bin/vopaas-metadata.sh.j2 dest={{ scripts_dir }}/vopaas-metadata.sh  mode=0755
+  
+- name: Add VOPaaS startup script
+  template: src=bin/vopaas-start.sh.j2 dest={{ scripts_dir }}/vopaas-start.sh  mode=0755
