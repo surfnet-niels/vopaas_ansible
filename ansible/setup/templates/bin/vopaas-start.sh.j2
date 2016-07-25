@@ -1,0 +1,4 @@
+#! /bin/bash
+cd {{ proxy_dir }}
+{{ vopaas_env }}/bin/gunicorn -b {{ proxy_hostname }}:{{ proxy_port }} satosa.wsgi:app --keyfile={{ installation_dir }}/certs/proxy_server.key --certfile={{ installation_dir }}/certs/proxy_server.crt
+

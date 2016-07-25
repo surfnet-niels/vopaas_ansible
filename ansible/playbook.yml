@@ -33,7 +33,13 @@
     #Nginx config
     nginx_hostname: "vopaasteip.pt-27.utr.surfcloud.nl"
     nginx_port: "443"
-
+    
+    # Which backend plugins are enavbled? 
+    # possible values: saml2_backend, openid_backend, google_backend, fb_backend
+    backend_plugins_enabled: 
+    - saml2_backend
+    - google_backend
+    
   roles:
     # Install nginx to handle ssl
     - {role: nginx, sudo: yes}

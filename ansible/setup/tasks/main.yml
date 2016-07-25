@@ -1,3 +1,8 @@
+- name: Include vars from secrets files
+  include_vars: ../secrets/vopaas_secrets.yml
+
+#- fail: msg="user {{ secrets.plugins.saml2sp_backend.contact_person.technical.email }}"
+
 - name: Create directories
   file: path={{ item }} state=directory mode=0755
   with_items:
@@ -14,33 +19,51 @@
   with_fileglob:
     - ../files/certs/*
 
+#- name: Add proxy example config
+#  template: src=proxy_conf.yaml.example dest={{ proxy_dir }}/proxy_conf.yaml.example mode=0755
+
 - name: Add proxy config
-  template: src=proxy_conf.yaml.example dest={{ proxy_dir }}/proxy_conf.yaml
+  template: src=proxy_conf.yaml.j2 dest={{ proxy_dir }}/proxy_conf.yaml mode=0755
+
+#- name: Add internal attributes example config
+#  copy: src=internal_attributes.yaml.example dest={{ proxy_dir }}/internal_attributes.yaml.example mode=0755
 
 - name: Add internal attributes config
-  copy: src=internal_attributes.yaml.example dest={{ proxy_dir }}/internal_attributes.yaml
+  template: src=internal_attributes.yaml.j2 dest={{ proxy_dir }}/internal_attributes.yaml mode=0755
 
-- name: Add all frontend plugins
-  template: src={{ item }} dest={{ frontend_plugin_dir }}/{{ item | basename }}
-  with_fileglob:
-    - ../templates/plugins/frontends/*
+#- name: Add all example frontend plugins
+#  template: src={{ item }} dest={{ frontend_plugin_dir }}/{{ item | basename }}
+#  with_fileglob:
+#    - ../templates/plugins/frontends/*.example
 
-- name: Add all backend plugins
-  template: src={{ item }} dest={{ backend_plugin_dir }}/{{ item | basename }}
-  with_fileglob:
-    - ../templates/plugins/backends/*
+#- name: Add all example backend plugins
+#  template: src={{ item }} dest={{ backend_plugin_dir }}/{{ item | basename }}
+#  with_fileglob:
+#    - ../templates/plugins/backends/*.example
+    
+- name: Setup configuration for Google backend plugin
+  template: src=../templates/plugins/backends/google_backend.yaml.j2 dest={{ backend_plugin_dir }}/google_backend.yaml mode=0755  
+  when: '"google_backend" in backend_plugins_enabled'
 
-- name: Add all micro service plugins
+- name: Setup configuration for Facebook backend plugin
+  template: src=../templates/plugins/backends/fb_backend.yaml.j2 dest={{ backend_plugin_dir }}/fb_backend.yaml mode=0755
+  when: '"fb_backend" in backend_plugins_enabled'
+
+- name: Setup configuration for OpenID backend plugin
+  template: src=../templates/plugins/backends/openid_backend.yaml.j2 dest={{ backend_plugin_dir }}/openid_backend.yaml mode=0755
+  when: '"openid_backend" in backend_plugins_enabled'
+   
+- name: Setup configuration for SAML2SP backend plugin
+  template: src=../templates/plugins/backends/saml2_backend.yaml.j2 dest={{ backend_plugin_dir }}/saml2_backend.yaml mode=0755
+  when: '"saml2_backend" in backend_plugins_enabled'
+
+- name: Add all example micro service plugins
   template: src={{ item }} dest={{ micro_service_dir }}/{{ item | basename }}
   with_fileglob:
-    - ../templates/plugins/micro_services/*
-
-- name: Add VOPaaS proxy job
-  template: src=vopaas_proxy.conf dest=/etc/init/vopaas_proxy.conf
-  sudo: Yes
+    - ../templates/plugins/micro_services/*.example
 
 - name: Add VOPaaS metadata generation script
   template: src=bin/vopaas-metadata.sh.j2 dest={{ scripts_dir }}/vopaas-metadata.sh  mode=0755
   
 - name: Add VOPaaS startup script
-  template: src=bin/vopaas-start.sh.j2 dest={{ scripts_dir }}/vopaas-start.sh  mode=0755
+  template: src=bin/vopaas-start.sh.j2 dest={{ scripts_dir }}/vopaas-start.sh  mode=0755   

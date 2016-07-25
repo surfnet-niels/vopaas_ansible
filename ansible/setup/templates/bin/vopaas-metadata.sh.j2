@@ -1,0 +1,13 @@
+#! /bin/bash
+
+VOPAAS_HOME={{ installation_dir }}
+BACKEND_METADATA_LOCATION={{ backend_metadata_location }}
+FRONTEND_METADATA_LOCATION={{ frontend_metadata_location }}
+VOPAAS_ENV={{ vopaas_env }}
+PROXY_DIR={{ proxy_dir }} 
+
+# Generate Backend Metadata
+$VOPAAS_ENV/bin/python $VOPAAS_ENV/bin/make_satosa_saml_metadata.py -b -o $BACKEND_METADATA_LOCATION $PROXY_DIR/proxy_conf.yaml
+#Generate Frontend Metadata
+$VOPAAS_ENV/bin/python $VOPAAS_ENV/bin/make_satosa_saml_metadata.py -f -o $FRONTEND_METADATA_LOCATION $PROXY_DIR/proxy_conf.yaml
+

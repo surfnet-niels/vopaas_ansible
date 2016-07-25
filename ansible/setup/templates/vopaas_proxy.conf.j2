@@ -1,0 +1,5 @@
+description "VOPaaS service"
+
+chdir {{ proxy_dir }}
+
+exec {{ vopaas_env }}/bin/gunicorn -b{{ proxy_hostname }}:{{ proxy_port }} satosa.wsgi:app --keyfile={{ proxy_server_key }} --certfile={{ proxy_server_cert }}

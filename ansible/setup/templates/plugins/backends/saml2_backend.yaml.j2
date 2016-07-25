@@ -1,0 +1,36 @@
+module: satosa.backends.saml2.SamlBackend
+name: SAML2SPBACKEND
+plugin: BackendModulePlugin
+
+config:
+  config:
+    organization: {display_name: "{{ secrets.plugins.saml2sp_backend.organization.display_name }}", name: "{{ secrets.plugins.saml2sp_backend.organization.name }}", url: "{{ secrets.plugins.saml2sp_backend.organization.url }}" }
+    contact_person:
+      - {contact_type: "technical", email_address: "{{ secrets.plugins.saml2sp_backend.contact_person.technical.email }}", given_name: "{{ secrets.plugins.saml2sp_backend.contact_person.technical.given_name }}" }
+      - {contact_type: "support", email_address: "{{ secrets.plugins.saml2sp_backend.contact_person.support.email }}", given_name: "{{ secrets.plugins.saml2sp_backend.contact_person.support.given_name }}" }
+    key_file: "{{ proxy_backend_key }}"
+    cert_file: "{{ proxy_backend_cert }}"
+
+    metadata:
+      local: "{{ secrets.plugins.saml2sp_backend.entities_metadata_file }}"
+
+    entityid: <base_url>/<name>/proxy_saml2_backend.xml
+    service:
+      sp:
+        allow_unsolicited: true
+        endpoints:
+          assertion_consumer_service:
+            - [<base_url>/<name>/acs/post, 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST']
+            - [<base_url>/<name>/acs/redirect, 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect']
+
+    xmlsec_binary: /usr/bin/xmlsec1
+
+    logger:
+      loglevel: debug
+      rotating: {backupCount: 5, filename: sp.log, maxBytes: 500000}
+
+  # disco_srv must be defined if there is more than one IdP in the metadata specified above
+  #disco_srv:
+  state_id: <name>
+  hash_type: persistent
+  publish_metadata: <base_url>/<name>/metadata
