@@ -1,2 +1,6 @@
-[teip]
-145.100.180.53
+[teip1]
+#145.100.180.53
+vopaas.teip
+
+[lb1]
+vopaas.teip
