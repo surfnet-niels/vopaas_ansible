@@ -18,7 +18,9 @@
     frontend_metadata_location: "{{ installation_dir }}/metadata/frontend"
     # Where remote metadata should be placed
     remote_metadata_location: "{{ installation_dir }}/metadata/remote"
-
+    # Where shell scripts should be placed
+    scripts_dir: "{{ installation_dir }}/bin"    
+    
     # SATOSA config
  
     # Proxy host name
