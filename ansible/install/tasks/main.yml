@@ -1,6 +1,12 @@
-- name: Create project directory
-  file: path={{ installation_dir }} state=directory mode=0744
 
+- name: Create project directory
+  file: path={{ installation_dir_timestamp }} state=directory mode=0744
+
+- debug: msg="src={{ installation_dir_timestamp }} dest={{ installation_dir }}"
+
+- name: Create symlink to project directory
+  file: src={{ installation_dir_timestamp }} dest={{ installation_dir }} state=link
+  
 - name: install apt pkg
   apt: pkg={{ item }} state=present update_cache=yes
   with_items:

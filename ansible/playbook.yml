@@ -8,6 +8,7 @@
       sudo: No
 
   vars:
+    installation_dir_timestamp: "{{ installation_dir }}_{{ lookup('pipe','date +%Y%m%d%H%M') }}"
     # The vopaas proxy installation folder
     installation_dir: "{{ home.stdout }}/vopaas"
     # Where to save the python virtual environ
@@ -34,19 +35,24 @@
     nginx_hostname: "vopaasteip.pt-27.utr.surfcloud.nl"
     nginx_port: "443"
     
-    # Which backend plugins are enavbled? 
+    # Which backend plugins are enabled? 
     # possible values: saml2_backend, openid_backend, google_backend, fb_backend
     backend_plugins_enabled: 
     - saml2_backend
     - google_backend
+
+    # Which frontend plugins are enabled? 
+    # possible values: saml2_frontend
+    frontend_plugins_enabled: 
+    - saml2_frontend
     
   roles:
-    # Install nginx to handle ssl
-    - {role: nginx, sudo: yes}
     # Install all python libraries to the virtual env
     - {role: install, sudo: no}
     # Setup the proxy with configurations and module plugins
     - {role: setup, sudo: no}
+    # Install nginx to handle ssl
+    - {role: nginx, sudo: yes}
     # Provision proxy endpoints
     # Generate metadata for the proxy frontend and backend
     - {role: generate_metadata, sudo: no}

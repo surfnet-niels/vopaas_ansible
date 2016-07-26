@@ -12,7 +12,9 @@ BACKEND_MODULES:
   - "{{ plugin }}"
 {% endfor %}
 FRONTEND_MODULES:
-  - "saml2_frontend"
+{% for plugin in frontend_plugins_enabled %}
+  - "{{ plugin }}"
+{% endfor %}
 MICRO_SERVICES:
   - "statistics_service"
 USER_ID_HASH_SALT: ""
