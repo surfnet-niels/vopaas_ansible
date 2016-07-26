@@ -12,8 +12,16 @@ config:
     cert_file: "{{ proxy_backend_cert }}"
 
     metadata:
-      local: "{{ secrets.plugins.saml2sp_backend.entities_metadata_file }}"
-
+      local: 
+{% for local_metadata in secrets.plugins.saml2sp_backend.metadata.local %}
+      - "{{ local_metadata }}"
+{% endfor %}
+      
+      remote:
+{% for remote_metadata in secrets.plugins.saml2sp_backend.metadata.remote %}
+      - url: "{{ remote_metadata.url }}"
+{% endfor %}
+      
     entityid: <base_url>/<name>/proxy_saml2_backend.xml
     service:
       sp:

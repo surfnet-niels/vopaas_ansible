@@ -26,7 +26,7 @@
   template: src=internal_attributes.yaml.j2 dest={{ proxy_dir }}/internal_attributes.yaml mode=0755
 
 - name: Setup configuration for SAML2SP frontend plugin
-  template: src=saml2_frontend.yaml.j2 dest={{ frontend_plugin_dir }}/saml2_frontend.yaml mode=0755
+  template: src=../templates/plugins/frontends/saml2_frontend.yaml.j2 dest={{ frontend_plugin_dir }}/saml2_frontend.yaml mode=0755
     
 - name: Setup configuration for Google backend plugin
   template: src=../templates/plugins/backends/google_backend.yaml.j2 dest={{ backend_plugin_dir }}/google_backend.yaml mode=0755  
