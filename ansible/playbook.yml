@@ -27,7 +27,7 @@
     # SATOSA config
  
     # Proxy host name
-    proxy_hostname: "127.0.0.1"
+    proxy_hostname: "145.100.180.53"
     # Proxy port
     proxy_port: "9091"
     # Need to be global for when generating metadata
@@ -47,6 +47,12 @@
     # possible values: saml2_frontend
     frontend_plugins_enabled: 
     - saml2_frontend
+    
+    # Number of workers (2 x $num_cores) + 1
+    gunicorn_workers: 3
+    # put in deamon mode?
+    gunicorn_deamonize: true
+    
     
   roles:
     # Install all python libraries to the virtual env

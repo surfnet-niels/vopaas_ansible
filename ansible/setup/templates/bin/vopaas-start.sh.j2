@@ -1,4 +1,3 @@
 #! /bin/bash
 cd {{ proxy_dir }}
-{{ vopaas_env }}/bin/gunicorn -b {{ proxy_hostname }}:{{ proxy_port }} satosa.wsgi:app --keyfile={{ installation_dir }}/certs/proxy_server.key --certfile={{ installation_dir }}/certs/proxy_server.crt
-
+{{ vopaas_env }}/bin/gunicorn -p vopaasteip -n vopaasteip -w {{ gunicorn_workers }} {% if gunicorn_deamonize %} -D {% endif %} -b {{ proxy_hostname }}:{{ proxy_port }} satosa.wsgi:app --keyfile={{ installation_dir }}/certs/proxy_server.key --certfile={{ installation_dir }}/certs/proxy_server.crt --log-file {{ logs_dir }}/gunicorn_errors.log --access-logfile {{ logs_dir }}/gunicorn_access.log
