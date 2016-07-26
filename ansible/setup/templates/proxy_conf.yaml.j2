@@ -7,7 +7,10 @@ PLUGIN_PATH:
   - "{{ frontend_plugin_dir }}"
   - "{{ backend_plugin_dir }}"
   - "{{ micro_service_dir }}"
-BACKEND_MODULES: "{{ backend_plugins_enabled }}"
+BACKEND_MODULES: 
+{% for plugin in backend_plugins_enabled %}
+  - "{{ plugin }}"
+{% endfor %}
 FRONTEND_MODULES:
   - "saml2_frontend"
 MICRO_SERVICES:
