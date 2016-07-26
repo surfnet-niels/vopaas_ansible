@@ -38,7 +38,7 @@ config:
 
     logger:
       loglevel: info
-      rotating: {backupCount: 5, filename: idp.log, maxBytes: 500000}
+      rotating: {backupCount: 5, filename: {{ logs_dir }}/saml2_frontend.log, maxBytes: 500000}
 
   acr_mapping:
     "": http://eidas.europa.eu/LoA/low

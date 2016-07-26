@@ -30,3 +30,6 @@ config:
       - ["Google OP", "en"]
       display_name:
       - ["Google", "en"]
+  logger:
+    loglevel: debug
+    rotating: {backupCount: 5, filename: {{ logs_dir }}/google_backend.log, maxBytes: 500000}

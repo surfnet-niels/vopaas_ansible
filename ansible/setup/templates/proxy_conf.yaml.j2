@@ -43,7 +43,7 @@ LOGGING:
       class: logging.handlers.RotatingFileHandler
       level: INFO
       formatter: simple
-      filename: info.log
+      filename: {{ logs_dir }}/info.log
       maxBytes: 10485760 # 10MB
       backupCount: 20
       encoding: utf8
@@ -51,7 +51,7 @@ LOGGING:
       class: logging.FileHandler
       level: DEBUG
       formatter: simple
-      filename: satosa.log
+      filename: {{ logs_dir }}/satosa.log
       encoding: utf8
   loggers:
     satosa:

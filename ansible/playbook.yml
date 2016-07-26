@@ -21,6 +21,8 @@
     remote_metadata_location: "{{ installation_dir }}/metadata/remote"
     # Where shell scripts should be placed
     scripts_dir: "{{ installation_dir }}/bin"    
+    # Where log files should be placed
+    logs_dir: "{{ installation_dir }}/logs"    
     
     # SATOSA config
  

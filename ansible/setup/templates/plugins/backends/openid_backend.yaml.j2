@@ -43,3 +43,6 @@ config:
         - ["", en]
       logo:
         - {width: '', height: '', lang: en, image: ''}
+  logger:
+    loglevel: debug
+    rotating: {backupCount: 5, filename: {{ logs_dir }}/openid_backend.log, maxBytes: 500000}

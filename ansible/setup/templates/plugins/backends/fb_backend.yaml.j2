@@ -26,3 +26,6 @@ config:
       - ["Facebook oauth", "en"]
       display_name:
       - ["Facebook", "en"]
+  logger:
+    loglevel: debug
+    rotating: {backupCount: 5, filename: {{ logs_dir }}/fb_backend.log, maxBytes: 500000}
