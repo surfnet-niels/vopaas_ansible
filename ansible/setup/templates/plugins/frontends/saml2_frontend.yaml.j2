@@ -3,7 +3,19 @@ config:
     key_file: "{{ proxy_frontend_key }}"
     cert_file: "{{ proxy_frontend_cert }}"
     metadata:
-      local: [metadata/sp.xml]
+    metadata:
+{% if secrets.plugins.saml2sp_frontend.metadata.local is defined %}
+      local: 
+  {% for local_metadata in secrets.plugins.saml2sp_frontend.metadata.local %}
+      - "{{ local_metadata }}"
+  {% endfor %}
+
+{% elif secrets.plugins.saml2sp_frontend.metadata.remote is defined %}
+      remote:
+  {% for remote_metadata in secrets.plugins.saml2sp_frontend.metadata.remote %}
+      - url: "{{ remote_metadata.url }}"
+  {% endfor %}
+{% endif %} 
 
     entityid: <base_url>/<name>/vopaas_proxy.xml
     service:
