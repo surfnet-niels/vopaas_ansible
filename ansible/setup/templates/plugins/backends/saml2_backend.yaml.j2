@@ -12,15 +12,18 @@ config:
     cert_file: "{{ proxy_backend_cert }}"
 
     metadata:
+{% if secrets.plugins.saml2sp_backend.metadata.local is defined %}
       local: 
-{% for local_metadata in secrets.plugins.saml2sp_backend.metadata.local %}
+  {% for local_metadata in secrets.plugins.saml2sp_backend.metadata.local %}
       - "{{ local_metadata }}"
-{% endfor %}
-      
+  {% endfor %}
+
+{% elif secrets.plugins.saml2sp_backend.metadata.remote is defined %}
       remote:
-{% for remote_metadata in secrets.plugins.saml2sp_backend.metadata.remote %}
+  {% for remote_metadata in secrets.plugins.saml2sp_backend.metadata.remote %}
       - url: "{{ remote_metadata.url }}"
-{% endfor %}
+  {% endfor %}
+{% endif %} 
       
     entityid: <base_url>/<name>/proxy_saml2_backend.xml
     service:
