@@ -1,8 +1,6 @@
 - name: Include vars from secrets files
   include_vars: ../secrets/vopaas_secrets.yml
 
-#- fail: msg="user {{ secrets.plugins.saml2sp_backend.contact_person.technical.email }}"
-
 - name: Create directories
   file: path={{ item }} state=directory mode=0755
   with_items:
