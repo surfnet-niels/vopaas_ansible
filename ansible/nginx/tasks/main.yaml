@@ -1,33 +1,38 @@
 - name: add nginx repository
   apt_repository: repo=ppa:nginx/stable
-  sudo: Yes
+  become: Yes
 
 - name: install apt pkg
   apt: pkg=nginx state=present update_cache=yes
-  sudo: Yes
+  become: Yes
 
 - name: Create nginx cert dir
   file: path={{ nginx_cert_dir }} state=directory mode=0744
-  sudo: No
+  become: No
 
 - name: Copy nginx cert
   copy: src=nginx.crt dest={{ nginx_ssl_cert}} mode=0444
-  sudo: No
+  become: No
 
 - name: Copy nginx key
   copy: src=nginx.key dest={{ nginx_ssl_key}} mode=0444
-  sudo: No
+  become: No
 
 - name: remove default nginx config
   file: path=/etc/nginx/sites-enabled/default state=absent
-  sudo: Yes
+  become: Yes
 
 - name: add nginx config to sites-available
   template: src=nginx.conf.j2
             dest=/etc/nginx/sites-available/{{ nginx_hostname }}
-  sudo: Yes
+  become: Yes
+
+- name: set gunicorn specfic proxy config to conf.d
+  template: src=gunicorn_vopaas-teip.conf.j2
+            dest=/etc/nginx/conf.d/gunicorn_vopaas-teip.conf
+  become: Yes
 
 - name: Create symlink to {{ nginx_hostname }} in sites-enabled
   file: src=/etc/nginx/sites-available/{{ nginx_hostname }} dest=//etc/nginx/sites-enabled/{{ nginx_hostname }} state=link
   notify: nginx reload
-  sudo: Yes
+  become: Yes

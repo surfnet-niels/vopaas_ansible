@@ -20,11 +20,11 @@
     - python-setuptools
     - python-pip
     - python3-pip
-  sudo: Yes
+  become: Yes
 
 - name: install virtualenv
   pip: name=virtualenv
-  sudo: Yes
+  become: Yes
 
 - name: create virtualenv
   command: virtualenv --python=/usr/bin/python3 {{ vopaas_env }}

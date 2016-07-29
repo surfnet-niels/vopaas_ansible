@@ -5,7 +5,7 @@
     - name: Register home directory
       command: echo $HOME
       register: home
-      sudo: No
+      become: No
 
   vars:
     installation_dir_timestamp: "{{ installation_dir }}_{{ lookup('pipe','date +%Y%m%d%H%M') }}"
@@ -23,13 +23,15 @@
     scripts_dir: "{{ installation_dir }}/bin"    
     # Where log files should be placed
     logs_dir: "{{ installation_dir }}/logs"    
+    # Where public www  should be placed
+    www_dir: "/var/www/html"  
     
     # SATOSA config
  
     # Proxy host name
-    proxy_hostname: "145.100.180.53"
+    proxy_hostname: "127.0.0.1"
     # Proxy port
-    proxy_port: "9091"
+    proxy_port: "8080"
     # Need to be global for when generating metadata
     proxy_dir: "{{ installation_dir }}/proxy"
 
@@ -51,16 +53,16 @@
     # Number of workers (2 x $num_cores) + 1
     gunicorn_workers: 3
     # put in deamon mode?
-    gunicorn_deamonize: true
+    gunicorn_deamonize: false
     
     
   roles:
     # Install all python libraries to the virtual env
-    - {role: install, sudo: no}
+    - {role: install, become: no, tags: ['install']}
     # Setup the proxy with configurations and module plugins
-    - {role: setup, sudo: no}
+    - {role: setup, become: no, tags: ['setup']}
     # Install nginx to handle ssl
-    - {role: nginx, sudo: yes}
+    - {role: nginx, become: yes, tags: ['nginx']}
     # Provision proxy endpoints
     # Generate metadata for the proxy frontend and backend
-    - {role: generate_metadata, sudo: no}
+    - {role: generate_metadata, become: no, tags: ['metadata']}

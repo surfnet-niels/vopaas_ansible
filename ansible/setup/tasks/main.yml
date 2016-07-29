@@ -14,7 +14,8 @@
     - "{{ proxy_dir }}"
     - "{{ scripts_dir }}"
     - "{{ logs_dir }}"
-
+    - "{{ www_dir }}"
+    
 - name: Copy all keys from certs
   copy: src={{ item }} dest={{ cert_dir }}/{{ item | basename }} mode=0444
   with_fileglob:
@@ -22,6 +23,9 @@
 
 - name: Add proxy config
   template: src=proxy_conf.yaml.j2 dest={{ proxy_dir }}/proxy_conf.yaml mode=0755
+  
+- name: Add metadata config
+  template: src=metadata_conf.yaml.j2 dest={{ proxy_dir }}/metadata_conf.yaml mode=0755
 
 - name: Add internal attributes config
   template: src=internal_attributes.yaml.j2 dest={{ proxy_dir }}/internal_attributes.yaml mode=0755
@@ -54,4 +58,7 @@
   template: src=bin/vopaas-metadata.sh.j2 dest={{ scripts_dir }}/vopaas-metadata.sh  mode=0755
   
 - name: Add VOPaaS startup script
-  template: src=bin/vopaas-start.sh.j2 dest={{ scripts_dir }}/vopaas-start.sh  mode=0755   
+  template: src=bin/vopaas-start.sh.j2 dest={{ scripts_dir }}/vopaas-start.sh  mode=0755
+  
+- name: Add VOPaaS debug startup script
+  template: src=bin/vopaas-start-debug.sh.j2 dest={{ scripts_dir }}/vopaas-start-debug.sh  mode=0755 

@@ -1,14 +1,35 @@
-- name: Create metadata folders
-  file: path={{ item }} state=directory mode=0744
+- name: Create public metadata folders
+  file: path={{ item }} state=directory mode=0755
   with_items:
-    - "{{ backend_metadata_location }}"
-    - "{{ frontend_metadata_location }}"
-    - "{{ remote_metadata_location }}"
+    - "/var/www/html/metadata"
+    - "/var/www/html/metadata/sp"
+    - "/var/www/html/metadata/idps"
+  become: true
+  #become_user: www-data
 
-- name: Generating backend metadata
+- name: Generating backend metadata at public www
   shell:
-    "{{ vopaas_env }}/bin/python {{ vopaas_env }}/bin/make_satosa_saml_metadata.py -b -o {{ backend_metadata_location }} {{ proxy_dir }}/proxy_conf.yaml chdir={{ proxy_dir }}"
+    "{{ vopaas_env }}/bin/python {{ vopaas_env }}/bin/make_satosa_saml_metadata.py -b -o /var/www/html/metadata/sp {{ proxy_dir }}/metadata_conf.yaml chdir={{ proxy_dir }}"
+  become: true
 
-- name: Generating frontend metadata
+- name: Generating frontend metadata at public www
   shell:
-    "{{ vopaas_env }}/bin/python {{ vopaas_env }}/bin/make_satosa_saml_metadata.py -f -o {{ frontend_metadata_location }} {{ proxy_dir }}/proxy_conf.yaml chdir={{ proxy_dir }}"
+    "{{ vopaas_env }}/bin/python {{ vopaas_env }}/bin/make_satosa_saml_metadata.py -f -o /var/www/html/metadata/idps {{ proxy_dir }}/metadata_conf.yaml chdir={{ proxy_dir }}"
+  become: true
+  
+- name: Set files to 744 and owned by www-data
+  file: path=/var/www/html owner=www-data group=www-data mode=0755 state=directory recurse=yes
+  become: true
+  
+- name: Create private remote metadata folder
+  file: path={{ item }} state=directory mode=755
+  with_items:
+    - "{{ remote_metadata_location }}"  
+ 
+- name: Create symlink for backend metadata
+  file: src="/var/www/html/metadata/sp" dest="{{ backend_metadata_location }}" state=link force=yes
+   
+- name: Create symlinks for frontend metadata
+  file: src="/var/www/html/metadata/idps" dest="{{ frontend_metadata_location }}" state=link force=yes
+      
+
